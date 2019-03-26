@@ -1,0 +1,70 @@
+$colors: (
+  primary: (
+    light:    #4CADFE,
+    base:     #008BFF,
+    shade:    #0C68F9,
+    dark:     #2C49DB
+  ),
+  secondary: (
+    light:    #333C40,
+    base:     #253A58,
+    shade:    #182C49,
+    dark:     #121C2A
+  ),
+  white: (
+    base:     #F7F9FC,
+    shade:    #E5EBF3
+  ),
+  buttons: (
+    buy:      #FCE35C,
+    icon:     #0BF7BF,
+    offer:    #FF7E00
+  ),
+  actions: (
+    info:     #217DA3,
+    error:    #891C2F,
+    success:  #56BF67,
+    warning:  #DDD659
+  ),
+  black:      #000000,
+  gplus:      #DD4B39,
+  twitter:    #1DA1F2,
+  facebook:   #3B5998,
+  instagram:  #C13584,
+  youtube:    #FF0000
+);
+
+$errorColor: #BBFF00;
+
+@function color($name, $variant: 1, $alpha: 1) {
+  $finalColor: $errorColor;
+
+  @if map-has-key($colors, $name) {
+    $finalColor: map-get($colors, $name);
+
+    @if type-of($variant) != number {
+      @if map-has-key($finalColor, $variant) {
+        $finalColor: map-get($finalColor, $variant);
+      }
+      @else {
+        $finalColor: $errorColor;
+      }
+    }
+    @else {
+      @if type-of($finalColor) != color {
+        $finalColor: map-get($finalColor, base);
+      }
+    }
+    @if type-of($variant) == number {
+      $finalColor: rgba($finalColor, $variant)
+    }
+    @else {
+      $finalColor: rgba($finalColor, $alpha)
+    }
+  }
+  @if type-of($finalColor) != color {
+    $finalColor: $errorColor;
+  }
+
+  @return $finalColor;
+}
